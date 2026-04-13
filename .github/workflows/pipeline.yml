@@ -27,3 +27,18 @@ jobs:
       with:
         name: trivy-report
         path: trivy-report.json
+
+    - name: Run Semgrep
+      run: |
+        pip install semgrep
+        semgrep scan --json --output semgrep-report.json
+
+    - name: Upload Semgrep report
+      uses: actions/upload-artifact@v3
+      with:
+        name: semgrep-report
+        path: semgrep-report.json
+
+    - name: Send to n8n
+      run: |
+        curl -X POST http://your-n8n/webhook/security-scan
