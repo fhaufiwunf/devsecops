@@ -1,0 +1,29 @@
+name: DevSecOps Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Build Docker Image
+      run: docker build -t dvwa-app .
+
+    - name: Run Trivy Scan
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: dvwa-app
+        format: json
+        output: trivy-report.json
+
+    - name: Upload report
+      uses: actions/upload-artifact@v3
+      with:
+        name: trivy-report
+        path: trivy-report.json
