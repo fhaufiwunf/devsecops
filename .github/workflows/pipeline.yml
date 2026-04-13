@@ -34,7 +34,7 @@ jobs:
         semgrep scan --json --output semgrep-report.json
 
     - name: Upload Semgrep report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: semgrep-report
         path: semgrep-report.json
