@@ -41,4 +41,4 @@ jobs:
 
     - name: Send to n8n
       run: |
-        curl -X POST http://your-n8n/webhook/security-scan
+        curl -X POST https://unfitted-unsubtle-overdrive.ngrok-free.dev
