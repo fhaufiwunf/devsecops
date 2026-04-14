@@ -46,7 +46,7 @@ jobs:
          -v $(pwd):/zap/wrk \
          ghcr.io/zaproxy/zaproxy:stable zap-baseline.py \
          -t https://example.com \
-         -J /zap/wrk/zap-report.json
+         -J zap-report.json
 
     - name: Upload Reports
       uses: actions/upload-artifact@v4
