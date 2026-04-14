@@ -46,14 +46,14 @@ jobs:
           -J zap-report.json
 
     - name: Upload Reports
-      uses: actions/upload-artifact@v3
-      with:
-      name: security-reports
-      path: |
-          semgrep-report.json
-          trivy-report.json
-          zap-report.json
+      uses: actions/upload-artifact@v4
+        with:
+          name: security-reports
+          path: |
+             semgrep-report.json
+             trivy-report.json
+             zap-report.json
 
     - name: Send to n8n
       run: |
-        curl -X POST https://unfitted-unsubtle-overdrive.ngrok-free.dev
+        curl -X POST https://unfitted-unsubtle-overdrive.ngrok-free.dev/webhook/security
