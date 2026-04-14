@@ -39,16 +39,16 @@ jobs:
         name: semgrep-report
         path: semgrep-report.json
 
-      continue-on-error: true
     - name: Run ZAP Scan
+      continue-on-error: true
       run: |
-       docker run -t \
-         -u root \
-         -v $(pwd):/zap/wrk \
-         ghcr.io/zaproxy/zaproxy:stable zap-baseline.py \
-         -t https://example.com \
-         -J zap-report.json
-         -I || true
+        docker run -t \
+          -u root \
+          -v $(pwd):/zap/wrk \
+          ghcr.io/zaproxy/zaproxy:stable zap-baseline.py \
+          -t https://example.com \
+          -J zap-report.json \
+          -I || true
 
     - name: Upload Reports
       uses: actions/upload-artifact@v4
