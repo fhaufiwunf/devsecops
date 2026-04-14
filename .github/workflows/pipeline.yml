@@ -1,5 +1,5 @@
 name: DevSecOps Pipeline
-continue-on-error: true
+
 on:
   push:
     branches: [ "main" ]
@@ -38,7 +38,7 @@ jobs:
       with:
         name: semgrep-report
         path: semgrep-report.json
-
+    continue-on-error: true
     - name: Run ZAP Scan
       run: |
        docker run -t \
