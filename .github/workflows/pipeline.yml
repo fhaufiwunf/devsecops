@@ -42,6 +42,7 @@ jobs:
     - name: Run ZAP Scan
       run: |
        docker run -t \
+         -u root \
          -v $(pwd):/zap/wrk \
          ghcr.io/zaproxy/zaproxy:stable zap-baseline.py \
          -t https://example.com \
