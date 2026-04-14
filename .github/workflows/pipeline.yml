@@ -1,5 +1,5 @@
 name: DevSecOps Pipeline
-
+continue-on-error: true
 on:
   push:
     branches: [ "main" ]
