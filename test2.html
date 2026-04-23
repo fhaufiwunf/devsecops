@@ -1,0 +1,26 @@
+<?php
+// Kết nối MySQL (cách cũ, không an toàn)
+$conn = mysqli_connect("localhost", "root", "", "testdb");
+
+if (!$conn) {
+    die("Kết nối thất bại: " . mysqli_connect_error());
+}
+
+// Lấy dữ liệu từ tham số GET
+$username = $_GET['username'];
+
+// ❌ LỖI: Ghép chuỗi trực tiếp vào câu SQL
+$sql = "SELECT * FROM users WHERE username = '$username'";
+
+$result = mysqli_query($conn, $sql);
+
+if ($result) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        echo "User: " . htmlspecialchars($row['username']) . "<br>";
+    }
+} else {
+    echo "Lỗi truy vấn: " . mysqli_error($conn);
+}
+
+mysqli_close($conn);
+?>
