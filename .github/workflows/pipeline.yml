@@ -67,6 +67,6 @@ jobs:
           --slurpfile zap zap-report.json \
           '{trivy: $trivy[0], semgrep: $semgrep[0], zap: $zap[0]}' > final-report.json
 
-        curl -X POST https://unfitted-unsubtle-overdrive.ngrok-free.dev  \
+        curl -X POST https://unfitted-unsubtle-overdrive.ngrok-free.dev/webhook/security-scan  \
           -H "Content-Type: application/json" \
           -d @final-report.json
