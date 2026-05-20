@@ -12,10 +12,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Run Trivy Scan
+    - name: Run Trivy FS Scan
       uses: aquasecurity/trivy-action@master
       with:
-        image-ref: dvwa-app
+        scan-type: fs
+        scan-ref: .
+        scanners: vuln,secret
+        severity: CRITICAL,HIGH
+        ignore-unfixed: true
         format: json
         output: trivy-report.json
 
@@ -28,7 +32,7 @@ jobs:
     - name: Run Semgrep
       run: |
         pip install semgrep
-        semgrep scan --json --output semgrep-report.json
+        semgrep scan --config p/security-audit --config p/owasp-top-ten --json --output semgrep-report.json .
 
     - name: Upload Semgrep report
       uses: actions/upload-artifact@v4
