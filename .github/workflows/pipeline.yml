@@ -45,7 +45,7 @@ jobs:
       # 3) Start demo app locally so ZAP can scan correct target
       - name: Start Demo App
         run: |
-          docker compose up -d --build
+          docker compose -f devsecops-demo-app/docker-compose.yml up -d --build
           echo "Waiting for app to start..."
           for i in {1..30}; do
             if curl -sSf $APP_URL > /dev/null; then
