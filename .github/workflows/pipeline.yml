@@ -144,15 +144,15 @@ jobs:
       # 7) Deploy to Kubernetes
       # This works only if this runner has kubectl access to your cluster,
       # or if you add KUBE_CONFIG secret for a cloud/remote cluster.
-      - name: Setup kubeconfig
-        if: ${{ secrets.KUBE_CONFIG != '' }}
-        run: |
-          mkdir -p ~/.kube
-          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > ~/.kube/config
+#      - name: Setup kubeconfig
+#        if: ${{ secrets.KUBE_CONFIG != '' }}
+#        run: |
+#          mkdir -p ~/.kube
+#          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > ~/.kube/config
 
-      - name: Deploy to Kubernetes
-        if: ${{ secrets.KUBE_CONFIG != '' }}
-        run: |
-          kubectl set image deployment/devsecops-demo-app \
-            devsecops-demo-app=${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:${{ github.sha }}
-          kubectl rollout status deployment/devsecops-demo-app
+#      - name: Deploy to Kubernetes
+#        if: ${{ secrets.KUBE_CONFIG != '' }}
+#        run: |
+#          kubectl set image deployment/devsecops-demo-app \
+#            devsecops-demo-app=${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:${{ github.sha }}
+#          kubectl rollout status deployment/devsecops-demo-app
