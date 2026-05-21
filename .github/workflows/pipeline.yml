@@ -71,3 +71,32 @@ jobs:
         curl -X POST https://unfitted-unsubtle-overdrive.ngrok-free.dev/webhook/security-scan  \
           -H "Content-Type: application/json" \
           -d @final-report.json
+
+    - name: Check Security Gate
+      run: |
+        if [ "${{ steps.security_gate.outputs.decision }}" = "block" ]; then
+          echo "Security gate failed"
+          exit 1
+        fi
+
+    - name: Build Docker Image
+      run: |
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/dvwa-app:${{ github.sha }} .
+
+    - name: Login to Docker Hub
+      if: success()
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Push Docker Image
+      if: success()
+      run: |
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/dvwa-app:${{ github.sha }}
+
+    - name: Deploy to Kubernetes
+      if: success()
+      run: |
+        kubectl set image deployment/dvwa-app dvwa-app=${{ secrets.DOCKERHUB_USERNAME }}/dvwa-app:${{ github.sha }}
+        kubectl rollout status deployment/dvwa-app
